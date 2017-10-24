@@ -1,2 +1,2 @@
 include ':library'
-rootProject.name = 'kt-base-android'
+rootProject.name = 'artifact'
