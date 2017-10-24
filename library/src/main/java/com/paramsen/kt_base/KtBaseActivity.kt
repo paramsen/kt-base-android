@@ -19,22 +19,22 @@ abstract class KtBaseActivity(val layoutRes: Int) : AppCompatActivity() {
         lifecycle.update(LifecycleEvent.CREATE)
     }
 
-    override fun onPostResume() {
+    public override fun onPostResume() {
         super.onPostResume()
         lifecycle.update(LifecycleEvent.RESUME)
     }
 
-    override fun onPause() {
+    public override fun onPause() {
         lifecycle.update(LifecycleEvent.PAUSE)
         super.onPause()
     }
 
-    override fun onStop() {
+    public override fun onStop() {
         lifecycle.update(LifecycleEvent.STOP)
         super.onStop()
     }
 
-    override fun onDestroy() {
+    public override fun onDestroy() {
         lifecycle.update(LifecycleEvent.DESTROY)
         super.onDestroy()
     }

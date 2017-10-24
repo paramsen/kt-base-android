@@ -14,34 +14,34 @@ import android.view.ViewGroup
 abstract class KtBaseFragment : Fragment() {
     abstract val layoutRes: Int
 
-    val lifecycle = Lifecycle()
-    val autodispose = AutoDispose(lifecycle)
+    public val lifecycle = Lifecycle()
+    public val autodispose = AutoDispose(lifecycle)
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    public override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(layoutRes, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    public override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycle.update(LifecycleEvent.CREATE)
     }
 
-    override fun onResume() {
+    public override fun onResume() {
         super.onResume()
         lifecycle.update(LifecycleEvent.RESUME)
     }
 
-    override fun onPause() {
+    public override fun onPause() {
         lifecycle.update(LifecycleEvent.PAUSE)
         super.onPause()
     }
 
-    override fun onStop() {
+    public override fun onStop() {
         lifecycle.update(LifecycleEvent.STOP)
         super.onStop()
     }
 
-    override fun onDestroy() {
+    public override fun onDestroy() {
         lifecycle.update(LifecycleEvent.DESTROY)
         super.onDestroy()
     }

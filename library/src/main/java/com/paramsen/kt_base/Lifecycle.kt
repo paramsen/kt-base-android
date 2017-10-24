@@ -14,15 +14,15 @@ class Lifecycle {
     private val current = AtomicReference<LifecycleEvent>(LifecycleEvent.NONE)
     private val stream = BehaviorSubject.create<LifecycleEvent>()
 
-    fun get(): LifecycleEvent {
+    public fun get(): LifecycleEvent {
         return current.get()
     }
 
-    fun stream(): Observable<LifecycleEvent> {
+    public fun stream(): Observable<LifecycleEvent> {
         return stream.asObservable()
     }
 
-    fun update(e: LifecycleEvent) {
+    public fun update(e: LifecycleEvent) {
         current.set(e)
         stream.onNext(e)
         if(e == LifecycleEvent.DESTROY) {

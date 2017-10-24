@@ -16,8 +16,8 @@ import rx.subscriptions.CompositeSubscription
 class AutoDispose(lifecycle: Lifecycle) {
     private val tag = AutoDispose::class.java.simpleName!!
 
-    val subscriptions = CompositeSubscription()
-    val subjects = ArrayList<Subject<*, *>>()
+    public val subscriptions = CompositeSubscription()
+    public val subjects = ArrayList<Subject<*, *>>()
 
     init {
         lifecycle.stream().toCompletable().subscribe(this::dispose)
@@ -34,11 +34,11 @@ class AutoDispose(lifecycle: Lifecycle) {
     /**
      * Added Subscription will be unsubscribed on DESTROY lifecycle event
      */
-    operator fun plus(s: Subscription) {
+    public operator fun plus(s: Subscription) {
         subscriptions.add(s)
     }
 
-    operator fun plus(subject: Subject<*, *>) {
+    public operator fun plus(subject: Subject<*, *>) {
         subjects + subject
     }
 }
