@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven'
 
+group = 'com.github.paramsen'
+
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
