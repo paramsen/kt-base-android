@@ -1,7 +1,8 @@
 package com.paramsen.kt_base
 
-import rx.Observable
-import rx.subjects.BehaviorSubject
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -10,23 +11,24 @@ import java.util.concurrent.atomic.AtomicReference
  *
  * @author Pär Amsen 10/2017
  */
-class Lifecycle {
-    private val current = AtomicReference<LifecycleEvent>(LifecycleEvent.NONE)
-    private val stream = BehaviorSubject.create<LifecycleEvent>()
+abstract class Lifecycle<EVENT>(startWith: EVENT, private val disposeOn: EVENT) {
 
-    public fun get(): LifecycleEvent {
+    private val current = AtomicReference<EVENT>(startWith)
+    private val stream = BehaviorSubject.create<EVENT>()
+
+    public fun get(): EVENT {
         return current.get()
     }
 
-    public fun stream(): Observable<LifecycleEvent> {
-        return stream.asObservable()
+    public fun stream(): Flowable<EVENT> {
+        return stream.toFlowable(BackpressureStrategy.DROP)
     }
 
-    public fun update(e: LifecycleEvent) {
+    public fun update(e: EVENT) {
         current.set(e)
         stream.onNext(e)
-        if(e == LifecycleEvent.DESTROY) {
-            stream.onCompleted()
+        if (e == disposeOn) {
+            stream.onComplete()
         }
     }
 }

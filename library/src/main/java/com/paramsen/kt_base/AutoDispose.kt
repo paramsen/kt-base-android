@@ -1,9 +1,9 @@
 package com.paramsen.kt_base
 
 import android.util.Log
-import rx.Subscription
-import rx.subjects.Subject
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.Subject
 
 /**
  * AutoDispose allows for binding a subcription/subject to the host Activity/Fragment lifecycle, so
@@ -13,32 +13,32 @@ import rx.subscriptions.CompositeSubscription
  *
  * @author Pär Amsen 10/2017
  */
-class AutoDispose(lifecycle: Lifecycle) {
+class AutoDispose(lifecycle: Lifecycle<*>) {
     private val tag = AutoDispose::class.java.simpleName!!
 
-    public val subscriptions = CompositeSubscription()
-    public val subjects = ArrayList<Subject<*, *>>()
+    private val disposable = CompositeDisposable()
+    private val subjects = ArrayList<Subject<*>>()
 
     init {
-        lifecycle.stream().toCompletable().subscribe(this::dispose)
+        lifecycle.stream().ignoreElements().subscribe(this::dispose)
     }
 
     private fun dispose() {
         Log.d(tag, "dispose")
 
-        subscriptions.clear()
-        for (s in subjects) s.onCompleted()
+        disposable.clear()
+        for (s in subjects) s.onComplete()
         subjects.clear()
     }
 
     /**
      * Added Subscription will be unsubscribed on DESTROY lifecycle event
      */
-    public operator fun plus(s: Subscription) {
-        subscriptions.add(s)
+    public operator fun plusAssign(s: Disposable) {
+        disposable.add(s)
     }
 
-    public operator fun plus(subject: Subject<*, *>) {
+    public operator fun plusAssign(subject: Subject<*>) {
         subjects + subject
     }
 }

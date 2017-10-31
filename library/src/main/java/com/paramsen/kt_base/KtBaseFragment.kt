@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.paramsen.kt_base.FragmentLifecycle.FragmentLifecycleEvent.*
 
 /**
  * Kotlin extension for BaseFragment to Kotlinize impl
@@ -14,7 +15,7 @@ import android.view.ViewGroup
 abstract class KtBaseFragment : Fragment() {
     abstract val layoutRes: Int
 
-    public val lifecycle = Lifecycle()
+    public val lifecycle = FragmentLifecycle()
     public val autodispose = AutoDispose(lifecycle)
 
     public override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -23,26 +24,26 @@ abstract class KtBaseFragment : Fragment() {
 
     public override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycle.update(LifecycleEvent.CREATE)
+        lifecycle.update(CREATE)
     }
 
     public override fun onResume() {
         super.onResume()
-        lifecycle.update(LifecycleEvent.RESUME)
+        lifecycle.update(RESUME)
     }
 
     public override fun onPause() {
-        lifecycle.update(LifecycleEvent.PAUSE)
+        lifecycle.update(PAUSE)
         super.onPause()
     }
 
     public override fun onStop() {
-        lifecycle.update(LifecycleEvent.STOP)
+        lifecycle.update(STOP)
         super.onStop()
     }
 
     public override fun onDestroy() {
-        lifecycle.update(LifecycleEvent.DESTROY)
+        lifecycle.update(DESTROY)
         super.onDestroy()
     }
 }
