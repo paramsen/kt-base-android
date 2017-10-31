@@ -1,2 +1,2 @@
 include ':library'
-rootProject.name = 'artifact'
+rootProject.name = 'kt_base'
