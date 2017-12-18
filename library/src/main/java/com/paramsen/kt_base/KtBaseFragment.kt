@@ -17,11 +17,11 @@ abstract class KtBaseFragment : Fragment() {
     public val lifecycle = Lifecycle()
     public val autodispose = AutoDispose(lifecycle)
 
-    public override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(layoutRes, container, false)
+    public override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(layoutRes, container, false)
     }
 
-    public override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    public override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycle.update(LifecycleEvent.CREATE)
     }
